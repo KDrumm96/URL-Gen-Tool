@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Savills URL Builder (Demo)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1 id="appTitle">Savills URL Builder</h1>
+      <p class="subtitle">Generate consistent URLs for Research & Blog content and prevent duplicates.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>1) Create a URL</h2>
+
+      <div class="grid">
+        <div class="field">
+          <label for="title">Content title</label>
+          <input id="title" type="text" placeholder="e.g., Q1 2026 Industrial Outlook: Logistics & Warehousing" />
+          <div class="hint">This is what authors already have. We'll slugify it.</div>
+        </div>
+
+        <div class="field">
+          <label for="market">Market</label>
+          <select id="market"></select>
+          <div class="hint">Used for full URL (domain).</div>
+        </div>
+
+        <div class="field">
+          <label for="contentType">Content type</label>
+          <select id="contentType"></select>
+          <div class="hint">Controls the root path (per-content-type root).</div>
+        </div>
+
+        <div class="field">
+          <label for="industry">Industry</label>
+          <select id="industry"></select>
+          <div class="hint">Start with 3: Retail / Industrial / Life Sciences.</div>
+        </div>
+
+        <div class="field">
+          <label for="publishYear">Publish year</label>
+          <input id="publishYear" type="number" min="2000" max="2100" />
+          <div class="hint">Keeps paths organized and reduces collision risk.</div>
+        </div>
+
+        <div class="field">
+          <label for="contentId">Content ID (optional, recommended)</label>
+          <input id="contentId" type="text" placeholder="e.g., 386797" />
+          <div class="hint">If provided, becomes part of the URL so it is always unique.</div>
+        </div>
+
+        <div class="field field-wide">
+          <label for="notes">Notes (optional)</label>
+          <input id="notes" type="text" placeholder="e.g., QBR focus, campaign name, internal note" />
+        </div>
+      </div>
+
+      <div class="output">
+        <div class="row">
+          <div class="label">Suggested URL path</div>
+          <div class="value" id="urlPath">—</div>
+          <button class="btn" id="copyPath" disabled>Copy path</button>
+        </div>
+        <div class="row">
+          <div class="label">Full URL</div>
+          <div class="value" id="fullUrl">—</div>
+          <button class="btn" id="copyFull" disabled>Copy URL</button>
+        </div>
+        <div class="row">
+          <div class="label">Uniqueness</div>
+          <div class="value" id="uniqueStatus">—</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="saveToRegistry" disabled>Save to registry</button>
+        <button class="btn" id="clearForm">Clear</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2) Registry (duplicate prevention)</h2>
+
+      <div class="actions">
+        <button class="btn" id="loadSample">Load sample registry</button>
+        <label class="filebtn">
+          Import registry CSV
+          <input type="file" id="importCsv" accept=".csv" />
+        </label>
+        <button class="btn" id="exportCsv">Export registry CSV</button>
+        <button class="btn danger" id="resetRegistry">Reset registry</button>
+      </div>
+
+      <div class="smallprint">
+        Tip: use the CSV import/export to sync with Smartsheet.
+      </div>
+
+      <div class="tablewrap">
+        <table id="registryTable">
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>Status</th>
+              <th>Market</th>
+              <th>Type</th>
+              <th>Industry</th>
+              <th>Year</th>
+              <th>Title</th>
+              <th>URL path</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) Rules (the standard)</h2>
+      <p>This tool enforces a simple convention designed for GA4 filtering and QBR automation:</p>
+      <pre class="codeblock" id="rulesBlock"></pre>
+      <p class="smallprint">You can edit roots/industries/markets in <code>config.json</code>.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span id="version"></span>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
